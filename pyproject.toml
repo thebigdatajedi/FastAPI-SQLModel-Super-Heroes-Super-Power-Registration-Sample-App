@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "s-tutorial"
+version = "0.1.0"
+description = ""
+authors = ["Gabe Cruz <gabe.cruz@henryscheinone.com>"]
+readme = "README.md"
+packages = [{include = "s_tutorial"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95.0"
+uvicorn = "^0.21.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
