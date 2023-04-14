@@ -186,4 +186,44 @@ def select_with_heroes_pk_direct_no_data():
         print("")
         print("")
 
+
 # end of select_with_heroes_pk_direct_no_data()
+
+def select_limited_heroes(limit=1):
+    with Session(engine) as session:
+        statement = select(Hero).limit(limit)
+        results = session.exec(statement)
+        heroes = results.all()
+        print(heroes)
+        print("")
+        print("")
+
+
+# end of select_limited_heroes()
+
+def select_limited_with_offset_heroes():
+    with Session(engine) as session:
+        statement = select(Hero).offset(3).limit(3)
+        results = session.exec(statement)
+        heroes = results.all()
+        print(heroes)
+        print("")
+        print("")
+
+
+# end of select_limited_with_offset_heroes()
+
+def select_next_batch_of_heroes():
+    with Session(engine) as session:
+        statement = select(Hero).offset(6).limit(3)  # Then to get the next batch of 3 rows we would offset
+        # all the ones we already saw, the first 6:
+        # basically, skip the next 6 rows and then get the next 3 rows
+        # this assumes that we displayed the first 6 in another method call.
+        # The user is done with those and is moving on to the next 3
+        # In this current data base there is only 7 so we we call the next 3 we only get the 1 back.
+        results = session.exec(statement)
+        heroes = results.all()
+        print(heroes)
+        print("")
+        print("")
+# end of select_next_batch_of_heroes()
