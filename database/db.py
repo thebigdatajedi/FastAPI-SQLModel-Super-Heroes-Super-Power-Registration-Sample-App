@@ -238,4 +238,23 @@ def select_where_limit_heroes():
         print(heroes)
         print("")
         print("")
+
+
 # end of select_where_limit_heroes()
+
+def update_heroes():
+    with Session(engine) as session:
+        statement = select(Hero).where(Hero.name == "Spider-Boy")
+        results = session.exec(statement)
+        hero = results.one()  # this looks like a safe guard, to get only the one record you seek back
+        print("Hero:", hero)
+
+        hero.age = 16
+        session.add(hero)
+        session.commit()
+        session.refresh(hero)  # Because we refreshed it right after updating it,
+        # it has fresh data, including the new age we just updated.
+        print("Updated hero:", hero)
+        print("")
+        print("")
+# end of update_heroes()
