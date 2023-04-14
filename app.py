@@ -1,6 +1,7 @@
 # app.py
 from database.db import engine, SQLModel, create_heroes, select_heroes, select_first_hero, select_exactly_one_hero, \
-    select_one_hero_inline, select_first_hero_inline
+    select_one_hero_inline, select_first_hero_inline, select_with_heroes_pk_direct, select_first_first_heroes, \
+    select_with_heroes_pk_direct_no_data
 import os
 
 
@@ -25,7 +26,9 @@ def main():
     select_exactly_one_hero()
     select_one_hero_inline()
     select_first_hero_inline()
-
+    select_first_first_heroes()
+    select_with_heroes_pk_direct()
+    select_with_heroes_pk_direct_no_data()
 
 if __name__ == "__main__":
     main()

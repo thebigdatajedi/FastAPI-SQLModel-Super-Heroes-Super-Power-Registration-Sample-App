@@ -146,6 +146,7 @@ def select_one_hero_inline():
 
 # end of select_one_hero_inline()
 
+
 def select_first_hero_inline():
     with Session(engine) as session:  # This is also a different session.
         hero = session.exec(select(Hero).where((col(Hero.age) <= 35) | (col(Hero.age) > 90))).first()
@@ -153,4 +154,36 @@ def select_first_hero_inline():
         print("")
         print("")
 
+
 # end of select_first_hero_inline()
+
+def select_first_first_heroes():
+    with Session(engine) as session:
+        statement = select(Hero).where(Hero.id == 1)  # first
+        results = session.exec(statement)
+        hero = results.first()  # first
+        print("Hero:", hero)
+        print("")
+        print("")
+
+
+# end of select_first_first_heroes()
+
+def select_with_heroes_pk_direct():
+    with Session(engine) as session:
+        hero = session.get(Hero, 1)  # shortcut, no select being used
+        print("Hero:", hero)
+        print("")
+        print("")
+
+
+# end of select_with_heroes_pk_direct()
+
+def select_with_heroes_pk_direct_no_data():
+    with Session(engine) as session:
+        hero = session.get(Hero, 9001)  # no data because the id is not in the table
+        print("Hero:", hero)
+        print("")
+        print("")
+
+# end of select_with_heroes_pk_direct_no_data()
