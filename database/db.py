@@ -297,4 +297,34 @@ def update_multiple_heroes():
         print("Updated hero 2:", hero_2)
         print("")
         print("")
+
+
 # end of update_multiple_heroes()
+
+def delete_heroes():
+    with Session(engine) as session:
+        # Pull this guy into memory.
+        statement = select(Hero).where(Hero.name == "Spider-Youngster")
+        results = session.exec(statement)
+        hero = results.one()
+        print("Hero: ", hero)
+
+        # Delete him from the database.
+        session.delete(hero)
+        # Commit the delete.
+        session.commit()
+
+        print("Deleted hero:", hero)
+
+        # Now we try to pull that guy back into memory but we should get None.
+        statement = select(Hero).where(Hero.name == "Spider-Youngster")
+        results = session.exec(statement)
+        hero = results.first()
+
+        # Do the None check.
+        if hero is None:
+            print("There's no hero named Spider-Youngster")
+
+    print("")
+    print("")
+# end of delete_heroes()
