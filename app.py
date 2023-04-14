@@ -1,5 +1,5 @@
 # app.py
-from database.db import engine, SQLModel, create_heroes, select_heroes, select_first_hero
+from database.db import engine, SQLModel, create_heroes, select_heroes, select_first_hero, select_exactly_one_hero
 import os
 
 
@@ -21,6 +21,7 @@ def main():
     create_heroes()
     select_heroes()
     select_first_hero()
+    select_exactly_one_hero()
 
 
 if __name__ == "__main__":

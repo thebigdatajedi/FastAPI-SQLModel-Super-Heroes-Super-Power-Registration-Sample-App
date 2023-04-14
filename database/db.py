@@ -119,4 +119,18 @@ def select_first_hero():
         print("")
         print("")
 
+
 # end of select_first_hero()
+
+def select_exactly_one_hero():
+    with Session(engine) as session:  # This is also a different session.
+        statement = select(Hero).where(
+            (col(Hero.name) == "Deadpond")
+        )  # returns Select OR SelectOfScalar
+        results = session.exec(statement)  # returns Result OR ScalarResult
+        hero = results.one()
+        print("Hero:", hero)
+        print("")
+        print("")
+
+# end of select_exactly_one_hero()
