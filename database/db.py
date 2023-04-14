@@ -217,10 +217,10 @@ def select_next_batch_of_heroes():
     with Session(engine) as session:
         statement = select(Hero).offset(6).limit(3)  # Then to get the next batch of 3 rows we would offset
         # all the ones we already saw, the first 6:
-        # basically, skip the next 6 rows and then get the next 3 rows
-        # this assumes that we displayed the first 6 in another method call.
+        # Basically, skip the next 6 rows and then get the next 3 rows
+        # This assumes that we displayed the first 6 in another method call.
         # The user is done with those and is moving on to the next 3
-        # In this current data base there is only 7 so we we call the next 3 we only get the 1 back.
+        # In this current database, there are only 7, so we call the next 3, we only get the 1 back.
         results = session.exec(statement)
         heroes = results.all()
         print(heroes)
