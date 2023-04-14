@@ -257,4 +257,44 @@ def update_heroes():
         print("Updated hero:", hero)
         print("")
         print("")
+
+
 # end of update_heroes()
+
+def update_multiple_heroes():
+    with Session(engine) as session:
+        # First I get this guy.
+        statement = select(Hero).where(Hero.name == "Spider-Boy")
+        results = session.exec(statement)
+        hero_1 = results.one()
+        print("Hero 1:", hero_1)
+
+        # Then I get this guy.
+        statement = select(Hero).where(Hero.name == "Captain North America")
+        results = session.exec(statement)
+        hero_2 = results.one()
+        print("Hero 2:", hero_2)
+
+        # Then I mutate this guy in memory.
+        hero_1.age = 16
+        hero_1.name = "Spider-Youngster"
+        session.add(hero_1)
+
+        # Then I mutate this guy in memory.
+        hero_2.name = "Captain North America Except Canada"
+        hero_2.age = 110
+        session.add(hero_2)
+
+        # Then I commit the changes to the database.
+        session.commit()
+
+        # Then I refresh explicitly to get the latest data from the database.
+        session.refresh(hero_1)
+        session.refresh(hero_2)
+
+        # Then I print the updated data.
+        print("Updated hero 1:", hero_1)
+        print("Updated hero 2:", hero_2)
+        print("")
+        print("")
+# end of update_multiple_heroes()
