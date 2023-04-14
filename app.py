@@ -30,5 +30,6 @@ def main():
     select_with_heroes_pk_direct()
     select_with_heroes_pk_direct_no_data()
 
+
 if __name__ == "__main__":
     main()
