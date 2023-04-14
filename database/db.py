@@ -133,4 +133,24 @@ def select_exactly_one_hero():
         print("")
         print("")
 
+
 # end of select_exactly_one_hero()
+
+def select_one_hero_inline():
+    with Session(engine) as session:  # This is also a different session.
+        hero = session.exec(select(Hero).where(col(Hero.name) == "Deadpond")).one()
+        print("Hero:", hero)
+        print("")
+        print("")
+
+
+# end of select_one_hero_inline()
+
+def select_first_hero_inline():
+    with Session(engine) as session:  # This is also a different session.
+        hero = session.exec(select(Hero).where((col(Hero.age) <= 35) | (col(Hero.age) > 90))).first()
+        print("Hero:", hero)
+        print("")
+        print("")
+
+# end of select_first_hero_inline()
