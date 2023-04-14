@@ -103,5 +103,20 @@ def select_heroes():
         results = session.exec(statement)  # returns Result OR ScalarResult
         heroes = results.all()
         print(heroes)
+        print("")
+        print("")
+
 
 # end of select_heroes()
+def select_first_hero():
+    with Session(engine) as session:  # This is also a different session.
+        statement = select(Hero).where(
+            (col(Hero.age) <= 25)
+        )  # returns Select OR SelectOfScalar
+        results = session.exec(statement)  # returns Result OR ScalarResult
+        hero = results.first()
+        print("Hero:", hero)
+        print("")
+        print("")
+
+# end of select_first_hero()
