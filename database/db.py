@@ -221,6 +221,18 @@ def select_on_heroes_only_still_join_on_team_where_team_name():
 
 # end of select_on_heroes_only_still_join_on_team_where_team_name()
 
+def select_on_heroes_only_still_join_on_team_where_team_name_results_all():
+    with Session(engine) as session:
+        statement = select(Hero).join(Team).where(Team.name == "Preventers") # dont include the Team data in the
+        # result but join (filter) on Team.name.
+        results = session.exec(statement).all()
+        print(results)
+    print("")
+    print("")
+
+
+# end of select_on_heroes_only_still_join_on_team_where_team_name_results_all()
+
 def select_first_hero():
     with Session(engine) as session:  # This is also a different session.
         statement = select(Hero).where(
