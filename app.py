@@ -1,6 +1,6 @@
 # app.py
 from database.db import engine, SQLModel, create_heroes_b, select_heroes_left_outer_join, \
-    select_heroes_left_outer_join_with_results_all
+    select_heroes_left_outer_join_with_results_all, select_on_heroes_only_still_join_on_team_where_team_name
 import os
 
 
@@ -22,8 +22,7 @@ def main():
     clean_up_db()
     create_db_and_tables()
     create_heroes_b()
-    select_heroes_left_outer_join()
-    select_heroes_left_outer_join_with_results_all()
+    select_on_heroes_only_still_join_on_team_where_team_name()
 
 
 if __name__ == "__main__":
