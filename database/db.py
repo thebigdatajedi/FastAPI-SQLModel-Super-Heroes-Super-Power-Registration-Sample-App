@@ -1,10 +1,9 @@
 # db.py
 from sqlmodel import SQLModel, create_engine, Session, select, col
 from models.hero import Hero
+from models.team import Team
 
-# sqlite_file_name = "../sqliteDb/database.db" #this notation doesn't work
 sqlite_file_name = "sqliteDb/database.db"  # this notation works
-# sqlite_file_name = "/Users/gabe.cruz/wrk/s_tutorial/sqliteDb/database.db" #this notation works
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 engine = create_engine(sqlite_url, echo=True)
@@ -327,4 +326,8 @@ def delete_heroes():
 
     print("")
     print("")
+
+
 # end of delete_heroes()
+
+
