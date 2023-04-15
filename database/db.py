@@ -9,96 +9,11 @@ sqlite_url = f"sqlite:///{sqlite_file_name}"
 engine = create_engine(sqlite_url, echo=True)
 
 
-def create_heroes_a():  # the amount of print statements is to make it easier
-    # to see what's going on
-    hero_1 = Hero(name="Deadpond", secret_name="Dive Wilson")
-    hero_2 = Hero(name="Spider-Boy", secret_name="Pedro Parqueador")
-    hero_3 = Hero(name="Rusty-Man", secret_name="Tommy Sharp", age=48)
-    hero_4 = Hero(name="Tarantula", secret_name="Natalia Roman-on", age=32)
-    hero_5 = Hero(name="Black Lion", secret_name="Trevor Challa", age=35)
-    hero_6 = Hero(name="Dr. Weird", secret_name="Steve Weird", age=36)
-    hero_7 = Hero(name="Captain North America", secret_name="Esteban Rogelios", age=93)
-
-    print("")
-    print("")
-    print("Before interacting with the database")
-    print("Hero 1:", hero_1)
-    print("Hero 2:", hero_2)
-    print("Hero 3:", hero_3)
-    print("")
-    print("")
-
-    with Session(engine) as session:  # this is one session below it's a separate session
-        session.add(hero_1)
-        session.add(hero_2)
-        session.add(hero_3)
-        session.add(hero_4)
-        session.add(hero_5)
-        session.add(hero_6)
-        session.add(hero_7)
-        print("")
-        print("")
-        session.commit()
-        print("")
-        print("")
-
-        print("")
-        print("")
-        print("After committing the session")
-        print("Hero 1:", hero_1)
-        print("Hero 2:", hero_2)
-        print("Hero 3:", hero_3)
-        print("")
-        print("")
-
-        print("")
-        print("")
-        print("After committing the session, show IDs")
-        print("Hero 1 ID:", hero_1.id)
-        print("Hero 2 ID:", hero_2.id)
-        print("Hero 3 ID:", hero_3.id)
-        print("")
-        print("")
-
-        print("")
-        print("")
-        print("After committing the session, show names")
-        print("Hero 1 name:", hero_1.name)
-        print("Hero 2 name:", hero_2.name)
-        print("Hero 3 name:", hero_3.name)
-
-        print("")
-        print("")
-        session.refresh(hero_1)
-        session.refresh(hero_2)
-        session.refresh(hero_3)
-        print("")
-        print("")
-
-        print("")
-        print("")
-        print("After refreshing the heroes")
-        print("Hero 1:", hero_1)
-        print("Hero 2:", hero_2)
-        print("Hero 3:", hero_3)
-    #   session closes here because it comes out of the with block
-    print("")
-    print("")
-    print("After the session closes")
-    print("Hero 1:", hero_1)
-    print("Hero 2:", hero_2)
-    print("Hero 3:", hero_3)
-    print("")
-    print("")
-
-
-# end of create_heroes_a()
-
-def create_heroes_b():
+def create_heroes():
     with Session(engine) as session:
         # Instantiate the teams
-        team_preventers = Team(name="Preventers", headquarters="Sharp Tower")
-        team_z_force = Team(name="Z-Force", headquarters="Sister Margaret’s Bar")
+        team_preventers = create_team("Preventers", "Sharp Tower")
+        team_z_force = create_team("Z-Force", "Sister Margaret’s Bar")
         # Add the teams to the session
         session.add(team_preventers)
         session.add(team_z_force)
@@ -139,12 +54,32 @@ def create_heroes_b():
         print("Created hero:", hero_deadpond)
         print("Created hero:", hero_rusty_man)
         print("Created hero:", hero_spider_boy)
-        print("")
-        print("")
+
+        # Add a connection with team - Update Operation
+        hero_spider_boy.team_id = team_preventers.id
+        session.add(hero_spider_boy)
+        session.commit()
+        session.refresh(hero_spider_boy)
+        print("Updated hero:", hero_spider_boy)
+
+        # Remove a connection with team - Update Operation
+        hero_spider_boy.team_id = None
+        session.add(hero_spider_boy)
+        session.commit()
+        session.refresh(hero_spider_boy)
+        print("No longer Preventer:", hero_spider_boy)
+    print("")
+    print("")
 
 
-# end of create_heroes_b()
+# end of create_heroes()
 
+def create_team(team_name: str, team_headquarters: str):
+    team = Team(name=team_name, headquarters=team_headquarters)
+    return team
+
+
+# end of create_heroes_c()
 def select_heroes_a():
     with Session(engine) as session:  # This is one session above; it's a separate session
         statement = select(Hero).where(
@@ -257,6 +192,31 @@ def select_heroes_and_team_join_on_team_where_team_name_results_all():
 
 
 # end of select_heroes_and_team_join_on_team_where_team_name_results_all()
+
+def select_heroes_and_team_without_join_on_team_where_team_name():
+    with Session(engine) as session:
+        statement = select(Hero, Team).where(Team.name == "Preventers")  # join on Team
+        # where Team.name
+        results = session.exec(statement)
+        for hero, team in results:
+            print("Preventer Hero:", hero, "Team:", team)
+    print("")
+    print("")
+
+
+# end of select_heroes_and_team_without_join_on_team_where_team_name()
+
+def select_heroes_and_team_without_join_on_team_where_team_name_results_all():
+    with Session(engine) as session:
+        statement = select(Hero, Team).where(Team.name == "Preventers")  # join on Team
+        # where Team.name
+        results = session.exec(statement).all()
+        print(results)
+    print("")
+    print("")
+
+
+# end of select_heroes_and_team_without_join_on_team_where_team_name_results_all()
 
 
 def select_first_hero():
