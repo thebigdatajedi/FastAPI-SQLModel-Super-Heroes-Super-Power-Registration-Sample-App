@@ -145,7 +145,7 @@ def create_heroes_b():
 
 # end of create_heroes_b()
 
-def select_heroes():
+def select_heroes_a():
     with Session(engine) as session:  # This is one session above; it's a separate session
         statement = select(Hero).where(
             (col(Hero.age) <= 35) | (col(Hero.age) > 90)
@@ -157,7 +157,20 @@ def select_heroes():
         print("")
 
 
-# end of select_heroes()
+# end of select_heroes_a()
+
+def select_heroes_b():
+    with Session(engine) as session:
+        statement = select(Hero, Team).where(Hero.team_id == Team.id)  # where team_id = Team.id
+        results = session.exec(statement)
+        for hero, team in results:
+            print("Hero:", hero, "Team:", team)
+    print("")
+    print("")
+
+
+# end of select_heroes_b()
+
 def select_first_hero():
     with Session(engine) as session:  # This is also a different session.
         statement = select(Hero).where(
