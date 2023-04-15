@@ -1,5 +1,6 @@
 # app.py
-from database.db import engine, SQLModel, create_heroes_b, select_heroes_b, select_heroes_with_join
+from database.db import engine, SQLModel, create_heroes_b, select_heroes_left_outer_join, \
+    select_heroes_left_outer_join_with_results_all
 import os
 
 
@@ -21,8 +22,8 @@ def main():
     clean_up_db()
     create_db_and_tables()
     create_heroes_b()
-    select_heroes_b()
-    select_heroes_with_join()
+    select_heroes_left_outer_join()
+    select_heroes_left_outer_join_with_results_all()
 
 
 if __name__ == "__main__":

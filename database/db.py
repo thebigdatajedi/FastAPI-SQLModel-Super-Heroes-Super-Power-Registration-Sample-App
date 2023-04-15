@@ -183,6 +183,31 @@ def select_heroes_with_join():
 
 # end of select_heroes_with_join()
 
+def select_heroes_left_outer_join():
+    with Session(engine) as session:
+        statement = select(Hero, Team).join(Team, isouter=True)  # join Team isouter=True, Hero is the left table
+        # and I'm joining the records that don't meet the criteria thus they are out or outer
+        results = session.exec(statement)
+        for hero, team in results:
+            print("Hero:", hero, "Team:", team)
+    print("")
+    print("")
+
+
+# end of select_heroes_left_outer_join()
+
+def select_heroes_left_outer_join_with_results_all():
+    with Session(engine) as session:
+        statement = select(Hero, Team).join(Team, isouter=True)  # join Team isouter=True, Hero is the left table
+        # and I'm joining the records that don't meet the criteria thus they are out or outer
+        results = session.exec(statement).all()
+        print(results)
+    print("")
+    print("")
+
+
+# end of select_heroes_left_outer_join_with_results_all()
+
 def select_first_hero():
     with Session(engine) as session:  # This is also a different session.
         statement = select(Hero).where(
