@@ -9,7 +9,7 @@ sqlite_url = f"sqlite:///{sqlite_file_name}"
 engine = create_engine(sqlite_url, echo=True)
 
 
-def create_heroes():  # the amount of print statements is to make it easier
+def create_heroes_a():  # the amount of print statements is to make it easier
     # to see what's going on
     hero_1 = Hero(name="Deadpond", secret_name="Dive Wilson")
     hero_2 = Hero(name="Spider-Boy", secret_name="Pedro Parqueador")
@@ -92,7 +92,58 @@ def create_heroes():  # the amount of print statements is to make it easier
     print("")
 
 
-# end of create_heroes()
+# end of create_heroes_a()
+
+def create_heroes_b():
+    with Session(engine) as session:
+        # Instantiate the teams
+        team_preventers = Team(name="Preventers", headquarters="Sharp Tower")
+        team_z_force = Team(name="Z-Force", headquarters="Sister Margaret’s Bar")
+        # Add the teams to the session
+        session.add(team_preventers)
+        session.add(team_z_force)
+        # Commit the teams to the database
+        session.commit()
+
+        # Refresh the teams to get make sure the latest data is available in memory
+        session.refresh(team_preventers)
+        session.refresh(team_z_force)
+
+        # Instantiate the heroes
+        hero_deadpond = Hero(
+            name="Deadpond", secret_name="Dive Wilson", team_id=team_z_force.id
+        )
+        hero_rusty_man = Hero(
+            name="Rusty-Man",
+            secret_name="Tommy Sharp",
+            age=48,
+            team_id=team_preventers.id,
+        )
+        hero_spider_boy = Hero(
+            name="Spider-Boy",
+            secret_name="Pedro Parqueador"
+        )
+
+        # Add our heroes to the session
+        session.add(hero_deadpond)
+        session.add(hero_rusty_man)
+        session.add(hero_spider_boy)
+
+        # Commit the heroes to the database
+        session.commit()
+
+        # Refresh the heroes to get make sure the latest data is available in memory
+        session.refresh(hero_deadpond)
+        session.refresh(hero_rusty_man)
+        session.refresh(hero_spider_boy)
+        print("Created hero:", hero_deadpond)
+        print("Created hero:", hero_rusty_man)
+        print("Created hero:", hero_spider_boy)
+        print("")
+        print("")
+
+
+# end of create_heroes_b()
 
 def select_heroes():
     with Session(engine) as session:  # This is one session above; it's a separate session
@@ -327,7 +378,4 @@ def delete_heroes():
     print("")
     print("")
 
-
 # end of delete_heroes()
-
-

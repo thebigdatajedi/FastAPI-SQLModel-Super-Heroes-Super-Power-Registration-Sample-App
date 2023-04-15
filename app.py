@@ -1,5 +1,5 @@
 # app.py
-from database.db import engine, SQLModel
+from database.db import engine, SQLModel, create_heroes_b
 import os
 
 
@@ -20,6 +20,7 @@ def clean_up_db():  # Adding this so the db file can be cleaned
 def main():
     clean_up_db()
     create_db_and_tables()
+    create_heroes_b()
 
 
 if __name__ == "__main__":
