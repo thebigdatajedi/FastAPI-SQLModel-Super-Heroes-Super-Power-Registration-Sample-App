@@ -210,7 +210,7 @@ def select_heroes_left_outer_join_with_results_all():
 
 def select_on_heroes_only_still_join_on_team_where_team_name():
     with Session(engine) as session:
-        statement = select(Hero).join(Team).where(Team.name == "Preventers") # dont include the Team data in the
+        statement = select(Hero).join(Team).where(Team.name == "Preventers")  # dont include the Team data in the
         # result but join (filter) on Team.name.
         results = session.exec(statement)
         for hero in results:
@@ -223,7 +223,7 @@ def select_on_heroes_only_still_join_on_team_where_team_name():
 
 def select_on_heroes_only_still_join_on_team_where_team_name_results_all():
     with Session(engine) as session:
-        statement = select(Hero).join(Team).where(Team.name == "Preventers") # dont include the Team data in the
+        statement = select(Hero).join(Team).where(Team.name == "Preventers")  # dont include the Team data in the
         # result but join (filter) on Team.name.
         results = session.exec(statement).all()
         print(results)
@@ -232,6 +232,32 @@ def select_on_heroes_only_still_join_on_team_where_team_name_results_all():
 
 
 # end of select_on_heroes_only_still_join_on_team_where_team_name_results_all()
+
+def select_heroes_and_team_join_on_team_where_team_name():
+    with Session(engine) as session:
+        statement = select(Hero, Team).join(Team).where(Team.name == "Preventers")  # join on Team
+        # where Team.name
+        results = session.exec(statement)
+        for hero, team in results:
+            print("Preventer Hero:", hero, "Team:", team)
+    print("")
+    print("")
+
+
+# end of select_heroes_and_team_join_on_team_where_team_name()
+
+def select_heroes_and_team_join_on_team_where_team_name_results_all():
+    with Session(engine) as session:
+        statement = select(Hero, Team).join(Team).where(Team.name == "Preventers")  # join on Team
+        # where Team.name
+        results = session.exec(statement).all()
+        print(results)
+    print("")
+    print("")
+
+
+# end of select_heroes_and_team_join_on_team_where_team_name_results_all()
+
 
 def select_first_hero():
     with Session(engine) as session:  # This is also a different session.
