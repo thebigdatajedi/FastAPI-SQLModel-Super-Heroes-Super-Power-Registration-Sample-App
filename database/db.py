@@ -171,6 +171,18 @@ def select_heroes_b():
 
 # end of select_heroes_b()
 
+def select_heroes_with_join():
+    with Session(engine) as session:
+        statement = select(Hero, Team).join(Team)  # on keyword is implied
+        results = session.exec(statement)
+        for hero, team in results:
+            print("Hero:", hero, "Team:", team)
+    print("")
+    print("")
+
+
+# end of select_heroes_with_join()
+
 def select_first_hero():
     with Session(engine) as session:  # This is also a different session.
         statement = select(Hero).where(
